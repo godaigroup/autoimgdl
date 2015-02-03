@@ -1,0 +1,167 @@
+/* Mixins */
+
+@mixin user-select-none(){
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@mixin cover-background($img-uri,$height:500,$background-cover:cover,$background-top:center, $background-left:center,$position:relative) {
+  background: url($img-uri) no-repeat;
+  -webkit-background-size: $background-cover;
+  -moz-background-size: $background-cover;
+  -o-background-size: $background-cover;
+  background-size: $background-cover;
+  position: $position;
+  height: $height+px;
+}
+
+@mixin button($bg-color:#000000,$br-radius:4){
+  cursor: pointer;
+  background:$bg-color;
+  border-radius: $br-radius+px;
+  @include user-select-none();
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin img-inline{
+  width: auto;
+  display: inline;
+}
+
+@mixin img-center-responsive{
+  width: auto;
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+@mixin center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin vertical-align($box-height:50%,$margin:auto){
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: $box-height;
+  margin: $margin;
+}
+
+@mixin font-size($sizeValue: 16) {
+  font-size: $sizeValue + px;
+  font-size: ($sizeValue/10) + rem;
+}
+@mixin line-height($sizeValue: 16) {
+  line-height: $sizeValue + px;
+  line-height: ($sizeValue/10) + rem;
+}
+@mixin input-placeholder($color) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &:-moz-placeholder {
+    color: $color;
+  }
+  &::-moz-placeholder {
+    color: $color;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+}
+
+@mixin border-line($type:all,$height:1,$style:solid,$color:$blue-medium,$padding-left:0,$padding-top:0,$padding-right:0,$padding-bottom:0,$margin-top:0,$margin-right:0,$margin-bottom:0,$margin-left:0){
+  @if $type == top {
+    border-top: $height+px $style $color;
+  }
+  @else if $type == right {
+    border-right: $height+px $style $color;
+  }
+  @else if $type == bottom {
+    border-bottom: $height+px $style $color;
+  }
+  @else if $type == left {
+    border-left: $height+px $style $color;
+  }
+  @else{
+    border: $height+px $style $color;
+  }
+  padding: $padding-top $padding-right $padding-bottom $padding-left;
+  margin: $margin-top $margin-right $margin-bottom $margin-left;
+}
+@mixin media-query($constraint, $viewport1, $viewport2: null) {
+  @if $constraint == min {
+    @media all and (min-width: $viewport1+px) {
+      @content;
+    }
+  } @else if $constraint == max {
+    @media all and (max-width: $viewport1+px) {
+      @content;
+    }
+  } @else {
+    @media all and (min-width: $viewport1+px) and (max-width: $viewport2+px) {
+      @content;
+    }
+  }
+}
+/* Mixins */
+/* Convo Special Mixins */
+@mixin clear-fix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+$grid-columns:              12;
+$grid-gutter-width:         30px;
+$grid-float-breakpoint:     768px;
+$screen-sm-min:             767px;
+$screen-md-min:             991px;
+/* Create own personal Row */
+@mixin convo-row($gutter: $grid-gutter-width) {
+  // Then clear the floated columns
+  @include clear-fix();
+  @media (min-width: $screen-sm-min) {
+    margin-left:  ($gutter / -2);
+    margin-right: ($gutter / -2);
+  }
+  // Negative margin nested rows out to align the content of columns
+  .row {
+    margin-left:  ($gutter / -2);
+    margin-right: ($gutter / -2);
+  }
+}
+/* Create own personal medium Col */
+// Generate the medium columns
+@mixin convo-md-col($columns,$gutter:$grid-gutter-width) {
+  position: relative;
+  // Prevent columns from collapsing when empty
+  min-height: 1px;
+  // Inner gutter via padding
+  padding-left:  ($gutter / 2);
+  padding-right: ($gutter / 2);
+
+  // Calculate width based on number of columns available
+  @media (min-width: $screen-md-min) {
+    float: left;
+    width: percentage(($columns / $grid-columns));
+  }
+}

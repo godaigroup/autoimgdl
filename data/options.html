@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+	<link href="bootstrap/bootstrap.min.css" rel="stylesheet" >
+	<link href="css/options.style.css" rel="stylesheet" >
+	<link href="bootstrap/toggle.min.css" rel="stylesheet" >
+</head>	
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Options</h1>
+				<div class="rule-form">
+					<div class="name"><input id="rule-name"  name="name" placeholder="Add your rule name here"></div>
+					<div class="pattern"><input id="pattern"  name="pattern" placeholder="Insert your pattern here"></div>
+					<div class="size">
+						<h4>Specify Image Dimentions</h4>
+						<input id="image-height"  name="height" placeholder="Image Height" maxlength="255">
+						<input id="image-width"  name="width" placeholder="Image Width" maxlength="255">
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="delete-btn">Delete Rule</div>
+				<div class="add-btn">Add Rule</div>
+			</div>
+		</div>
+	</div>
+	<div class="container rule-table">
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-striped table-condensed" >
+					<tr class="uneditable">
+						<th>#</th>
+						<th>Rule Name</th>
+						<th>Pattern(W x H)</th>
+						<th>Size</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="container other-options">
+		<div class="row">
+			<div class="col-md-12">
+				<input id="file-name"  name="name" placeholder="File Name" >
+				<h5>Note: You can use variables, site domain, rule name, dimensions, original file name and orig ext.</h5>
+				<input id="folder-path"  name="name" placeholder="Folder Path" >
+				<h6>Site domain as new folder</h6>
+				<input class="toggle-box" type="checkbox" checked data-toggle="toggle">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12"><div class="save-btn">Save</div></div>
+		</div>
+	</div>
+<!--<script src="utils-js/jquery.min.js"></script>
+<script src="bootstrap/bootstrap.min.js"></script>
+<script src="bootstrap/toggle.min.js"></script>
+<script src="contentScripts/options.js"></script>-->
+</body>
+</html>
