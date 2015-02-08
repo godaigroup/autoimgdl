@@ -1,20 +1,31 @@
 @import "mixins/mixins.scss";
 $cyan: #339eca;
 $cyan-dark:#247190;
-$place-holder-color:#b1a9b1;
+$place-holder-color: #928892;
 $font:#252b2d;
-$border-color:#bbb9b9;
+$border-color: #a8a6a6;
 $red:#e2562f;
+$green:#8AC007;
+body{
+  font-family: 'Open Sans', sans-serif;
+  position: relative;
+  background: url("../assets/_bg.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .container{
   margin-left: 20px;
   margin-right: 20px;
   max-width: 700px!important;
 }
 input{
+  font-weight: 300;
   @include input-placeholder($place-holder-color);
   color: $font;
-  @include font-size(18);
-  font-weight: 400;
+  @include font-size(20);
   outline: none;
   position: relative;
   box-sizing: border-box;
@@ -33,10 +44,14 @@ input{
 }
 /* Add Rows */
 h1{
+  font-weight: 300;
   text-align: center;
   margin-top: 30px;
   margin-bottom: 20px;
-  color: $cyan;
+ color: #272727;;
+  span{
+    color: #272727;
+  }
 }
 .rule-form{
   .size{
@@ -44,7 +59,7 @@ h1{
       max-width: 238px;
     }
   }
-  #image-height{
+  #image-width{
     float: left;
     margin-right: 30px;
   }
@@ -84,7 +99,26 @@ h1{
 .other-options{
   margin-bottom: 50px;
 
+  #file-name,#folder-path{
+    margin-bottom: 10px;
+  }
+
+  h5{
+    margin-top: 0;
+    font-weight: 400;
+    @include font-size(13);
+    line-height: 17px;
+    margin-bottom: 30px;
+    color: #000000;
+  }
+
   h6{
+    margin-top: 0;
+    font-weight: 400;
+    @include font-size(13);
+    line-height: 17px;
+    margin-bottom: 25px;
+    color: #000000;
     float: left;
     margin-right: 20px;
   }
@@ -97,7 +131,37 @@ h1{
     line-height: 45px;
     height: 45px;
     width:140px;
-    @include button($place-holder-color,4);
+    @include button($green,4);
+  }
+  .saving-options{
+    display: none;
+    opacity: 0;
+    color: $green;
+    @include font-size(18);
+    font-weight: 400;
+    float: right;
+    line-height: 32px;
+  }
+  .app-status{
+    display: none;
+    opacity: 0;
+    color: #e2562f;
+    @include font-size(18);
+    font-weight: 400;
+    float: right;
+    line-height: 32px;
+  }
+  .power-off{
+    color: #ffffff;
+    @include font-size(20);
+    font-weight: 400;
+    float: right;
+    text-align: center;
+    line-height: 45px;
+    height: 45px;
+    width:140px;
+    margin-right: 20px;
+    @include button($border-color,4);
   }
 }
 /* Other Options */
