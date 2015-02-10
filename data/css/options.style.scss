@@ -15,7 +15,12 @@ body{
   -o-background-size: cover;
   background-size: cover;
 }
-
+.warning{
+  background-color: #e2562f!important;
+  td{
+    background-color: #e2562f!important;
+  }
+}
 .container{
   margin-left: 20px;
   margin-right: 20px;

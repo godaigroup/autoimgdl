@@ -3,10 +3,7 @@ var brains = new(function(){
 	var rulesData = [],
 		fileName ="",
 		folderPath="",
-		siteDomainAsNewFolder=false,
-		downloadCount= 0,
-		globalImageArr = [],
-		processQue = -1;
+		globalImageArr = [];
 
 	function hideCounter(){
 		var x = setTimeout(function(){
@@ -66,13 +63,11 @@ var brains = new(function(){
 					obj.imgData = imgData;
 					obj.ruleName = ruleName;
 					obj.urlObj = urlObj;
-					obj.downloadCount = downloadCount;
 
 					globalImageArr.push(obj);
 
+					console.log("Global Image Arr - push"+globalImageArr);
 					console.log("regex");
-					downloadCount++;
-					displayDownloadCount(downloadCount);
 					break;
 				}
 			}
@@ -85,12 +80,9 @@ var brains = new(function(){
 					obj.imgData = imgData;
 					obj.ruleName = ruleName;
 					obj.urlObj = urlObj;
-					obj.downloadCount = downloadCount;
 
 					globalImageArr.push(obj);
 					console.log("height");
-					downloadCount++;
-					displayDownloadCount(downloadCount);
 					break;
 				}
 			}
@@ -100,18 +92,26 @@ var brains = new(function(){
 
 	function getImageData(self){
 		var imgData = {};
-			imgData.width  = self.naturalWidth;
-			imgData.height = self.naturalHeight;
+			if((self.naturalWidth).toString().length>0){
+				imgData.width  = self.naturalWidth;
+			}else{
+				imgData.width  = self.width;
+			}
+
+			if((self.naturalHeight).toString().length>0){
+				imgData.height = self.naturalHeight;
+			}else{
+				imgData.height = self.height;
+			}
 			imgData.src    = self.src;
 		pattenCheck(imgData);
 	}
 
-	function asyncSetup(){
+	function asyncSetup(processQue,globalImageArray,downloadCounter){
 		processQue++;
-		console.log(processQue);
-		console.log(globalImageArr);
-		if(globalImageArr.length>0){
-			var obj = globalImageArr[processQue],
+		downloadCounter++;
+		if(processQue <= globalImageArray.length-1){
+			var obj = globalImageArray[processQue],
 				imgData = "",
 				ruleName = "",
 				urlObj = "";
@@ -128,32 +128,32 @@ var brains = new(function(){
 				urlObj = obj.urlObj;
 			}
 
-			if(obj.downloadCount != undefined){
-				downloadCount = obj.downloadCount;
-			}
-
-			if(processQue <= globalImageArr.length){
-				self.port.emit("save-img",imgData,ruleName,urlObj,downloadCount);
-			}
+			self.port.emit("save-img",imgData,ruleName,urlObj,processQue,globalImageArray,downloadCounter);
+		}else{
+			displayDownloadCount(downloadCounter);
 		}
 	}
 
 	function intilizeLocalRulesDataAndDownload(data){
-
-		downloadCount=0;
 		rulesData = data.table;
 		fileName = data.fileName;
 		folderPath = data.folderPath;
-		siteDomainAsNewFolder = data.siteDomainAsNewFolder;
 
 		$("body").prepend('<div class="g-counter"><h3></h3></div>');
 
-		$.each($("img"),function(index,value){
-			getImageData($(this)[0]);
+		$("body").click(function(){
+			$.each($("img"),function(index,value){
+				var url = $(this)[0].src,
+					filename = url.substring(url.lastIndexOf('/')+1),
+					fileExt = filename.substring(filename.lastIndexOf('.')+1);
+				if((/jpg|jpeg|png|gif|tif/i).test(fileExt)){
+					getImageData($(this)[0]);
+				}
+			});
+			asyncSetup(-1,globalImageArr,-1);
 		});
 
-		asyncSetup();
-		hideCounter();
+			hideCounter();
 	}
 
 	this.init = function(){
