@@ -15,11 +15,13 @@ var brains = new(function(){
 	}
 
 	function displayDownloadCount(count){
-		var text = "Images Detected: "+count;
+		var text = "Images Downloaded: "+count;
 
 		$(".g-counter h3").html(text);
 
 		$(".g-counter").show().animate({"opacity":"1"});
+
+		hideCounter();
 	}
 
 	function parseImgURL(url) {
@@ -139,21 +141,31 @@ var brains = new(function(){
 		fileName = data.fileName;
 		folderPath = data.folderPath;
 
-		$("body").prepend('<div class="g-counter"><h3></h3></div>');
+		$("body").prepend('<div class="g-counter"><h3>Processing...</h3></div>');
 
-		$("body").click(function(){
+		$(".g-counter").show().animate({"opacity":"1"});
+
+		//$("body").click(function(){
 			$.each($("img"),function(index,value){
 				var url = $(this)[0].src,
-					filename = url.substring(url.lastIndexOf('/')+1),
-					fileExt = filename.substring(filename.lastIndexOf('.')+1);
+					filename = url.substring(url.lastIndexOf('/')+1);
+
+				var fileExt = filename.substring(filename.lastIndexOf('.')+1);
+
+				if(/jpeg/i.test(fileExt)){
+					filename = filename.substring(0,filename.lastIndexOf('.')+5);
+				}else{
+					filename = filename.substring(0,filename.lastIndexOf('.')+4);
+				}
+
+				fileExt = filename.substring(filename.lastIndexOf('.')+1);
+
 				if((/jpg|jpeg|png|gif|tif/i).test(fileExt)){
 					getImageData($(this)[0]);
 				}
 			});
 			asyncSetup(-1,globalImageArr,-1);
-		});
-
-			hideCounter();
+		//});
 	}
 
 	this.init = function(){
