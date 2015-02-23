@@ -44,7 +44,8 @@ var brains = new(function(){
 			pathname: parser.pathname,
 			search: parser.search,
 			searchObject: searchObject,
-			hash: parser.hash
+			hash: parser.hash,
+			windowHost:window.location.hostname
 		};
 		return data;
 	}
@@ -75,17 +76,19 @@ var brains = new(function(){
 			}
 			/* Store on Regex */
 			if(currentRow[2].length > 0){
-				var widthHeight = currentRow[2].split(" x ");
-				if(widthHeight[0] == imgData.width && widthHeight[1] == imgData.height){
+				var widthHeight = currentRow[2].trim().split("x");
+				if(widthHeight[0].length>0 && widthHeight[1].length>0){
+					if(widthHeight[0] == imgData.width && widthHeight[1] == imgData.height){
 
-					var obj = {};
-					obj.imgData = imgData;
-					obj.ruleName = ruleName;
-					obj.urlObj = urlObj;
+						var obj = {};
+						obj.imgData = imgData;
+						obj.ruleName = ruleName;
+						obj.urlObj = urlObj;
 
-					globalImageArr.push(obj);
-					console.log("height");
-					break;
+						globalImageArr.push(obj);
+						console.log("height");
+						break;
+					}
 				}
 			}
 			i++;
@@ -132,7 +135,7 @@ var brains = new(function(){
 
 			self.port.emit("save-img",imgData,ruleName,urlObj,processQue,globalImageArray,downloadCounter);
 		}else{
-			displayDownloadCount(downloadCounter);
+			//displayDownloadCount(downloadCounter);
 		}
 	}
 
@@ -143,9 +146,10 @@ var brains = new(function(){
 
 		$("body").prepend('<div class="g-counter"><h3>Processing...</h3></div>');
 
-		$(".g-counter").show().animate({"opacity":"1"});
+		//$(".g-counter").show().animate({"opacity":"1"});
 
 		//$("body").click(function(){
+			globalImageArr = [];
 			$.each($("img"),function(index,value){
 				var url = $(this)[0].src,
 					filename = url.substring(url.lastIndexOf('/')+1);
@@ -161,6 +165,7 @@ var brains = new(function(){
 				fileExt = filename.substring(filename.lastIndexOf('.')+1);
 
 				if((/jpg|jpeg|png|gif|tif/i).test(fileExt)){
+					console.log(globalImageArr);
 					getImageData($(this)[0]);
 				}
 			});
