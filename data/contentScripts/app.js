@@ -60,7 +60,18 @@ var brains = new(function(){
 				ruleName   = currentRow[0];
 			if(currentRow[1].length > 0){
 				var patt = new RegExp(currentRow[1]);
-				if(patt.test(imgData.src)){
+				if(currentRow[1]==".*"){
+					var obj = {};
+					obj.imgData = imgData;
+					obj.ruleName = ruleName;
+					obj.urlObj = urlObj;
+
+					globalImageArr.push(obj);
+
+					console.log("Global Image Arr - push"+globalImageArr);
+					console.log("regex");
+					break;
+				}else if(patt.test(imgData.src)){
 
 					var obj = {};
 					obj.imgData = imgData;
@@ -73,6 +84,7 @@ var brains = new(function(){
 					console.log("regex");
 					break;
 				}
+
 			}
 			/* Store on Regex */
 			if(currentRow[2].length > 0){
