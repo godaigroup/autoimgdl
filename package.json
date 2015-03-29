@@ -5,7 +5,7 @@
   "description": "Image Download Addon",
   "author": "",
   "license": "MPL 2.0",
-  "version": "0.1",
+  "version": "1.1",
   "permissions": {
     "cross-domain-content": ["http://www.hongkiat.com", "https://www.hongkiat.com"]
   }
